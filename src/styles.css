@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #140e0a;
+  --color-cream: #f4eadc;
+  --color-dust: #b7a898;
+  --color-leather: #d4652f;
+  --color-leather-deep: #8a3e1c;
+  --color-gem: #f0c14a;
+  --font-sans: "Outfit", system-ui, sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+    background: var(--color-ink);
+    color: var(--color-cream);
+    touch-action: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+.dusk-wash {
+  background: linear-gradient(180deg, #241c3d 0%, #b85a32 46%, #e7a15a 72%, #5c4634 100%);
+}
+
+.field-frame {
+  box-shadow: inset 0 0 90px 16px rgb(20 14 10 / 0.55);
+}
+
+@keyframes catch-banner {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  16% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  72% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+.catch-banner {
+  animation: catch-banner 1100ms ease-out forwards;
+}
+
+@keyframes catch-flash {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.catch-flash {
+  animation: catch-flash 280ms ease-out forwards;
+}
+
+@keyframes streak-pop {
+  from {
+    transform: scale(0.88);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.catch-ring {
+  z-index: 5;
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+  border: 5px solid #f0c14a;
+  box-shadow:
+    0 0 0 3px #140e0a,
+    0 0 0 14px rgb(240 193 74 / 0.28),
+    0 0 26px rgb(240 193 74 / 0.9);
+  animation: catch-ring 900ms ease-in-out infinite;
+}
+
+.catch-ring-web {
+  position: absolute;
+  inset: 36%;
+  border-radius: 9999px;
+  border: 3px solid #f0c14a;
+}
+
+.catch-ring[data-ready="1"] {
+  border-color: #d4652f;
+  box-shadow: 0 0 0 12px rgb(212 101 47 / 0.2), 0 0 32px rgb(240 193 74 / 0.95);
+}
+
+.catch-ring[data-gem="1"] {
+  border-color: #f0c14a;
+}
+
+@keyframes catch-ring {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .catch-banner,
+  .catch-flash,
+  .streak-pop,
+  .catch-ring {
+    animation: none;
+  }
+
+  .catch-banner {
+    opacity: 1;
+  }
+}

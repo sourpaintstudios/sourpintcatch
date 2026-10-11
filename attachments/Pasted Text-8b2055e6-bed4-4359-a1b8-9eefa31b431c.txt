@@ -1,0 +1,28 @@
+CATCH — First-Person Mobile Catch Game
+Core loop: One player, one ball. The phone is the glove and the ball. Hold a button, swing your arm, release the button — the ball flies. Tilt the phone to catch it. Haptic buzz, leather snap, and dust puff all fire on the same frame when you catch it.
+Physics model: The throw always goes toward a fixed receiver position (auto-aimed). Swing strength sets power and arc quality, not direction. Clean swings produce flat, accurate arcs. Jerky swings produce high pops or wobble that force last-second tilt adjustments. No free-aim. No multiplayer yet.
+Throw parameters:
+Gentle toss: ~1g peak, ~25–35 mph, short arc
+Normal catch: ~1.5–2g, ~40–50 mph, ~1.5s hang time, ~80 ft range
+Hard throw: ~2–3g, ~60–70 mph
+Dead zone below 0.6g (ignore hand tremor)
+Gesture duration: 0.15–0.8 seconds (too fast = noise, too slow = not a throw)
+Launch angle from phone tilt at button release, but constrained so the ball still arrives near the receiver
+Wobble amplitude scales with swing jerkiness (smooth = tight spiral, jerky = duck)
+Catch:
+Glove = sphere ~0.25 m radius around phone position (gyroscope-driven)
+Catch fires when ball enters radius and closing speed is positive
+Auto-lock: when ball is within 0.5 m, glove snaps toward it
+Web Gem: catch within ~0.08 m of glove center = bonus + streak multiplier
+Haptic: 80–120 ms heavy pulse, intensity scales with ball speed
+Audio: release swoosh → flight whistle with Doppler build → crisp leather snap on catch
+Visual: dust puff off glove leather on impact, light burst on Web Gem
+Start with baseballs only. One ball type, one clean arc, one snap. Footballs and wobble mechanics come later.
+Engine: Unity. Personal tier is free. Use built-in physics for gravity and drag. No custom physics solver needed for prototype.
+What to build first:
+Phone motion input: accelerometer peak for speed, gyroscope for catch position, button-hold for charge
+Ball projectile: parabolic arc with gravity and simple drag, auto-aimed at receiver
+Catch detection: proximity check + auto-lock
+Feedback: haptic + snap sound + dust particle, all on the same frame
+Solo mode: throw, catch, streak counter
+Do not build yet: multiplayer, football spiral physics, menus, progression systems, or anything that isn't the core throw-catch loop.

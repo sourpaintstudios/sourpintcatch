@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "CATCH",
+      "hasCanvas": true,
+      "bodyTextLen": 117,
+      "bodyTextHash": "c89fa3abfa8faa8d31dcdac935dc98ff2c1a287c752ac13fd0cf8bd730d059c2",
+      "bodyTextPrefix": "ONE BALL Catch Hold and swing to throw. When it comes back, drag",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "CATCH",
+      "hasCanvas": true,
+      "bodyTextLen": 117,
+      "bodyTextHash": "c89fa3abfa8faa8d31dcdac935dc98ff2c1a287c752ac13fd0cf8bd730d059c2",
+      "bodyTextPrefix": "ONE BALL Catch Hold and swing to throw. When it comes back, drag",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}
