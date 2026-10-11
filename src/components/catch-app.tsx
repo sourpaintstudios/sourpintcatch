@@ -69,7 +69,13 @@ export function CatchApp() {
       )}
 
       {started && (
-        <header className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between px-4 pt-[max(1rem,env(safe-area-inset-top))]">
+        <header
+          className={`pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between px-4 ${
+            showThrow
+              ? "pt-[max(8.5rem,calc(env(safe-area-inset-top)+8rem))]"
+              : "pt-[max(1rem,env(safe-area-inset-top))]"
+          }`}
+        >
           <div>
             <p className="text-xs tracking-widest text-dust uppercase">Streak</p>
             <p key={hud.streak} className="streak-pop font-display text-5xl leading-none tabular-nums">
@@ -109,10 +115,44 @@ export function CatchApp() {
         </header>
       )}
 
+      {showThrow && (
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex flex-col items-center px-20 pt-[max(0.35rem,env(safe-area-inset-top))]">
+          <button
+            type="button"
+            data-testid="throw"
+            aria-label={hud.phase === "charge" ? "Release" : "Hold to throw"}
+            aria-pressed={hud.phase === "charge"}
+            className="pointer-events-auto relative size-24 overflow-hidden rounded-full border-4 border-cream bg-leather font-display text-base text-ink"
+            onPointerDown={(e) => {
+              e.preventDefault();
+              try {
+                e.currentTarget.setPointerCapture(e.pointerId);
+              } catch {
+                /* already captured */
+              }
+              gameRef.current?.prime();
+              gameRef.current?.beginThrow(true);
+            }}
+            onContextMenu={(e) => e.preventDefault()}
+          >
+            <span
+              className={`absolute inset-x-0 bottom-0 ${hud.meter > 0.72 ? "bg-gem" : "bg-leather-deep/50"}`}
+              style={{ height: `${Math.round(hud.meter * 100)}%` }}
+            />
+            <span className="relative">{hud.phase === "charge" ? "Release" : "Hold"}</span>
+          </button>
+          {hud.hint && (
+            <p className="mt-2 rounded-full bg-ink/80 px-3 py-1.5 text-center font-display text-sm leading-tight text-balance text-cream">
+              {hud.hint}
+            </p>
+          )}
+        </div>
+      )}
+
       {started && hud.banner && (
         <p
           key={hud.bannerId}
-          className={`catch-banner pointer-events-none absolute inset-x-6 top-[32%] text-center font-display text-5xl italic ${tone}`}
+          className={`catch-banner pointer-events-none absolute inset-x-6 top-[38%] text-center font-display text-5xl italic ${tone}`}
         >
           {hud.banner}
         </p>
@@ -124,7 +164,8 @@ export function CatchApp() {
             <p className="text-xs tracking-widest text-dust uppercase">One ball</p>
             <h1 className="mt-1 font-display text-5xl leading-none text-balance">Catch</h1>
             <p className="mt-3 text-base leading-snug text-pretty text-dust">
-              Hold, then push the top of the phone forward like a lob, and let go. Pulling it back is not the lob. Then drag the mitt into the gold ring.
+              Grip the phone like a ball. Your pointer finger holds the button up by the camera. Let go at the
+              release point, then drag the mitt into the gold ring.
             </p>
             {hud.phase === "error" && <p className="mt-3 text-sm text-gem">{hud.error}</p>}
             <button
@@ -137,45 +178,16 @@ export function CatchApp() {
               {ready ? "Play" : "Lacing up"}
             </button>
           </div>
-        ) : showThrow ? (
-          <div className="pointer-events-auto">
-            {hud.hint && (
-              <p className="mx-auto mb-3 max-w-sm rounded-full bg-ink/80 px-4 py-2 text-center font-display text-lg leading-tight text-balance text-cream">
-                {hud.hint}
-              </p>
-            )}
-            <button
-              type="button"
-              data-testid="throw"
-              aria-pressed={hud.phase === "charge"}
-              className="relative h-16 w-full overflow-hidden rounded-full bg-leather font-display text-2xl text-ink active:scale-95"
-              onPointerDown={(e) => {
-                e.preventDefault();
-                try {
-                  e.currentTarget.setPointerCapture(e.pointerId);
-                } catch {
-                  /* already captured */
-                }
-                gameRef.current?.prime();
-                gameRef.current?.beginThrow(true);
-              }}
-              onContextMenu={(e) => e.preventDefault()}
-            >
-              <span
-                className={`absolute inset-y-0 left-0 ${hud.meter > 0.72 ? "bg-gem" : "bg-leather-deep/50"}`}
-                style={{ width: `${Math.round(hud.meter * 100)}%` }}
-              />
-              <span className="relative">{hud.phase === "charge" ? "Let go" : "Hold to throw"}</span>
-            </button>
-          </div>
         ) : hud.hint || caption(hud.phase) ? (
-          <p
-            className={`mx-auto max-w-sm rounded-full px-4 py-3 text-center font-display text-xl leading-tight text-balance ${
-              hud.hint.startsWith("Hold still") ? "bg-gem/20 text-gem" : "bg-ink/80 text-cream"
-            }`}
-          >
-            {hud.hint || caption(hud.phase)}
-          </p>
+          showThrow ? null : (
+            <p
+              className={`mx-auto max-w-sm rounded-full px-4 py-3 text-center font-display text-xl leading-tight text-balance ${
+                hud.hint.startsWith("Hold still") ? "bg-gem/20 text-gem" : "bg-ink/80 text-cream"
+              }`}
+            >
+              {hud.hint || caption(hud.phase)}
+            </p>
+          )
         ) : null}
       </footer>
     </main>
